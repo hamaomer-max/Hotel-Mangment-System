@@ -136,7 +136,34 @@
                                     class="bi bi-chevron-down ms-auto"></i>
                             </a>
                         </li>
+
                         </ul>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.index', 'admin.categories.create', 'admin.categories.edit']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-box mx-1"></i> <span> Categoris </span><i
+                                    class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                                <li class="nav-item">
+
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.index']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                        href="{{ route('admin.categories.index') }}">
+                                        <i class="bi bi-person mx-1"></i> <span> Show </span><i
+                                            class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                </li>
+                                
+                        <li class="nav-item">
+
+                            <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                 href="{{ route('admin.categories.create') }}">
+                                <i class="bi bi-person mx-1"></i> <span> Create </span><i
+                                    class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                        </li>
                         </li>
                      
                 </ul>

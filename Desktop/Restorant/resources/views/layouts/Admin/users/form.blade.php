@@ -11,18 +11,11 @@
     @isset($data)
     @method('PUT')
     @endisset
-    <div class="col-md-4 mt-4 position-relative">
-        <label for="name" class="form-label">Email</label>
-        <input type="email" class="form-control" value="{{ isset($data) ? $data->email : old('email') }}" name="email">
-    </div>
-    <div class="col-md-4 mt-4 position-relative">
-        <label for="name" class="form-label">password</label>
-        <input type="password" class="form-control" value="" name="password">
-    </div>
-    <div class="col-md-4 mt-4 position-relative">
-        <label for="name" class="form-label">password confirmation</label>
-        <input type="password" class="form-control" value="" name="password_confirmation">
-    </div>
+    
+    <x-input title="Email" name="email" type="email" :dt=" isset($data) ? $data : false " />
+    <x-input title="Password" name="password" type="password" :dt="false" />
+    <x-input title="Password confirmation" name="password_confirmation" type="password" :dt="false" />
+    
 
     <div class="col-md-4 mt-4 position-relative">
         <label for="name" class="form-label">role</label>
@@ -33,16 +26,8 @@
             <option @selected(isset($data) ? $data->role == 3 : old('role') == 3) value="3">Chef</option>
         </select>
     </div>
-
-    <div class="col-12">
-        <button class="btn btn-success col-md-2 mt-4">
-            @if (isset($data))
-                <i class="bi bi-pencil"></i> update
-                @else
-                <i class="bi bi-plus"></i> create
-            @endif
-        </button>
-    </div>
+    
+    <x-button checkifupdate="{{ isset($data) ? true : false }}" />
     </form>
 </div>
 </div>
