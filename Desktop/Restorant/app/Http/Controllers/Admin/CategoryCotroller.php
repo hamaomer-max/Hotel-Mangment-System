@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Traits\UploadFile;
+use App\Traits\DeleteFile;
 use App\Http\Requests\categoriRequest;
 
 class CategoryCotroller extends Controller
 {
+
+    use UploadFile;
+    use DeleteFile;
+
     public function index(Request $request)
     {
+
+
         if ($request->ajax()) {
         $data = Category::query()->latest()->with('user');
          return DataTables::Of($data)->addIndexColumn()
@@ -45,10 +53,8 @@ class CategoryCotroller extends Controller
     {
         $new_data = $request->validated();
 
-        $name = $request->file('image')->hashName();
-        $request->file('image')->move('categoris-image', $name);
 
-        $new_data['image'] = $name;
+        $new_data['image'] = $this->uploadFile($request, 'image', 'categoris-image');
 
         auth()->user()->categoris()->create($new_data);
         return redirect()->back()->with('message', 'Category created successfully');
@@ -80,14 +86,12 @@ class CategoryCotroller extends Controller
        $userData = $request->validated();
 
        $name = $old_data->image;
-       if ($request->hasFile('image')) {
-        $file = public_path("categoris-image/{$name}");
-        if (file_exists($file)) {
-            unlink($file);
-        }
-        $name = $request->file('image')->hashName();
-        $request->file('image')->move('categoris-image', $name);
-    }
+       
+       $this->DeleteFile(public_path("categoris-image/{$name}"));
+        
+        
+        $name = $this->uploadFile($request, 'image', 'categoris-image');
+    
     $userData['image'] = $name;
 
     $old_data->update($userData);
@@ -99,10 +103,8 @@ class CategoryCotroller extends Controller
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
-        $file = public_path("categoris-image/{$category->image}");
-        if (file_exists($file)) {
-            unlink($file);
-        }
+
+        $this->DeleteFile(public_path("categoris-image/{$category->image}"));
 
         $category->delete();
         return redirect()->back()->with('message', 'Data deleted successfully');

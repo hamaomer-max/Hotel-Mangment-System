@@ -16,6 +16,10 @@ class Category extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function sub_categories(){
+        return $this->hasMany(SubCategory::class, 'category_id');
+    }
+
     public function getCratedAtReadableAttribute(){
         return $this->created_at?->diffForHumans();
     }

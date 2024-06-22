@@ -30,6 +30,8 @@
         <script src="{{ asset('js/printThis.js') }}" defer></script>
         <script src="{{ asset('js/select.js') }}" defer></script>
         <script src="//cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>  
 
         <!-- Vendor CSS Files -->
         <link href="{{ asset('import/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -126,18 +128,15 @@
                                         <i class="bi bi-person mx-1"></i> <span> Show </span><i
                                             class="bi bi-chevron-down ms-auto"></i>
                                     </a>
-                                </li>
-                                
-                        <li class="nav-item">
 
-                            <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.users.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
-                                 href="{{ route('admin.users.create') }}">
-                                <i class="bi bi-person mx-1"></i> <span> Create </span><i
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.users.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                    href="{{ route('admin.users.create') }}">
+                                    <i class="bi bi-person mx-1"></i> <span> Create </span><i
                                     class="bi bi-chevron-down ms-auto"></i>
-                            </a>
-                        </li>
-
-                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                                
 
                         <li class="nav-item">
 
@@ -154,19 +153,99 @@
                                         <i class="bi bi-person mx-1"></i> <span> Show </span><i
                                             class="bi bi-chevron-down ms-auto"></i>
                                     </a>
+
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                    href="{{ route('admin.categories.create') }}">
+                                    <i class="bi bi-person mx-1"></i> <span> Create </span><i
+                                    class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
                                 </li>
-                                
+                            </ul>
+                        </li>
+
+
                         <li class="nav-item">
 
-                            <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
-                                 href="{{ route('admin.categories.create') }}">
-                                <i class="bi bi-person mx-1"></i> <span> Create </span><i
+                            <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.sub-categories.index', 'admin.sub-categories.create', 'admin.sub-categories.edit']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-box mx-1"></i> <span> Sub Categoris </span><i
                                     class="bi bi-chevron-down ms-auto"></i>
                             </a>
+                            <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                                <li class="nav-item">
+        
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.index']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                        href="{{ route('admin.sub-categories.index') }}">
+                                        <i class="bi bi-person mx-1"></i> <span> Show </span><i
+                                            class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.categories.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                    href="{{ route('admin.sub-categories.create') }}">
+                                    <i class="bi bi-person mx-1"></i> <span> Create </span><i
+                                    class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle arrow-none collapsed {{ in_array(Route::currentRouteName(), ['admin.foods.index', 'admin.foods.create', 'admin.foods.edit']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                               data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-box mx-1"></i> <span> Foods </span> <div class="arrow-down ms-auto"></div>
+                            </a>
+                        
+                            <ul id="users-nav" class="nav-content collapse">
+                                <li class="nav-item dropdown">
+                                    @foreach ($category as $row)
+                                        <a class="nav-link d-block collapsed {{ in_array(Route::currentRouteName(), ['admin.foods.index']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                           data-bs-toggle="collapse" href="#category-{{ $row->id }}">
+                                            {{ $row->name_en }}
+                                        </a>
+                                        <ul id="category-{{ $row->id }}" class="nav-content collapse ms-2">
+                                            @foreach ($row->sub_categories as $subcategory)
+                                                <li>
+                                                    <a href="{{ route('admin.foods.index', ['sub_category' => $subcategory->id]) }}" class="nav-link d-block mt-2 collapsed {{ in_array(Route::currentRouteName(), ['admin.foods.index']) ? 'bg-dark w-50 bg-opacity-25 d-block' : '' }}">
+                                                        {{ $subcategory->name_en }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        <div class="dropdown-divider me-4 arrow-down"></div>
+                                    @endforeach
+                                </li>
+                            </ul>
+                        
                         </li>
-                     
-                </ul>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.tables.index', 'admin.tables.create', 'admin.tables.edit']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-table mx-1"></i> <span> Tables </span><i
+                                    class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                                <li class="nav-item">
+        
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.tables.index']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                        href="{{ route('admin.tables.index') }}">
+                                        <i class="bi bi-person mx-1"></i> <span> Show </span><i
+                                            class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+
+                                    <a class="nav-link collapsed {{ in_array(Route::currentRouteName(), ['admin.tables.create']) ? 'bg-primary bg-opacity-25 d-block' : '' }}"
+                                    href="{{ route('admin.tables.create') }}">
+                                    <i class="bi bi-person mx-1"></i> <span> Create </span><i
+                                    class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                </ul>       
                      
             </aside><!-- End Sidebar-->
 
@@ -207,6 +286,7 @@
 
         <!-- Template Main JS File -->
         <script src="{{ asset('import/assets/js/main.js') }}"></script>
+        
 
 
 
@@ -235,6 +315,11 @@
                     }
                 })
         };
+
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+            $('select').select2();
+        });
 
     </script>
 

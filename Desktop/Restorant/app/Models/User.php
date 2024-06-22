@@ -57,6 +57,18 @@ class User extends Authenticatable
         return $this->hasMany(Category::class , 'user_id');
     }
 
+    public function sub_categories(){
+        return $this->hasMany(Subcategory::class , 'user_id');
+    }
+
+    public function foods(){
+        return $this->hasMany(Food::class , 'user_id');
+    }
+
+    public function tables(){
+        return $this->hasMany(Table::class , 'user_id');
+    }
+
     public function getCratedAtReadableAttribute(){
         return $this->created_at?->diffForHumans();
     }

@@ -9,10 +9,7 @@
     <thead>
       <tr>
         <th class="bg-dark text-light rounded text-center">No</th>
-        <th class="bg-dark text-light rounded text-center">Name Kurdish</th>
-        <th class="bg-dark text-light rounded text-center">Name English</th>
-        <th class="bg-dark text-light rounded text-center">Name Arabic</th>
-        <th class="bg-dark text-light rounded text-center">Image</th>
+        <th class="bg-dark text-light rounded text-center">Table Number</th>
         <th class="bg-dark text-light rounded text-center">Created At</th>
         <th class="bg-dark text-light rounded text-center">Created By</th>
         <th class="bg-dark text-light rounded text-center">Actions</th>
@@ -29,25 +26,20 @@ $(function() {
   let table = $('#myTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('admin.categories.index') }}",
-    columns: [
+    ajax: "{{ route('admin.tables.index') }}",
+    columns: [ 
       {data: 'DT_RowIndex', name: 'DT_RowIndex',orderable: false, searchable: false},
-      {data: 'name_ckb', name: 'name_ckb'},
 
-      {data: 'name_en', name: 'name_en'},
-      
-      {data: 'name_ar', name: 'name_ar'},
+      {data: 'table_num', name: 'table_num'},
 
-      {data: 'full_path_image', name: 'full_path_image',orderable: false, searchable: false , render: function(data , type , row){
-        return `<img src="${data}" width="50px" height="50px" />`;
-      }},
-   
       {data: 'crated_at_readable', name: 'crated_at_readable',orderable: false, searchable: false},
+
       {data: 'user.email', name: 'user.email'},
+
       {data: 'action', name: 'action', orderable: false, searchable: false , render: function(data , type , row){
         const id = row.id;
-        const editUrl = '{{ route('admin.categories.edit', ':id') }}';
-        const deleteUrl = '{{ route('admin.categories.destroy', ':id') }}';
+        const editUrl = '{{ route('admin.tables.edit', ':id') }}';
+        const deleteUrl = '{{ route('admin.tables.destroy', ':id') }}';
         return `<a href="${editUrl.replace(':id', id)}" class="btn btn-sm btn-primary mb-2" style="width: 55px">Edit</a>
         <form id='${id}' action="${deleteUrl.replace(':id', id)}" method="POST">
           {{ csrf_field() }}
