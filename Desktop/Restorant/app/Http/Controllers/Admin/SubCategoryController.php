@@ -15,6 +15,8 @@ class SubcategoryController extends Controller
 {
     use UploadFile;
     use DeleteFile;
+
+
     public function index(Request $request)
     {
         if ($request->ajax()) {

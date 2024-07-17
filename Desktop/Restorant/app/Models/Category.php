@@ -25,6 +25,6 @@ class Category extends Model
     }
 
     public function getFullPathImageAttribute(){
-        return env('APP_URL').'categoris-image/'. $this->image;
+        return env('APP_URL').'../categoris-image/'. $this->image;
     }
 }

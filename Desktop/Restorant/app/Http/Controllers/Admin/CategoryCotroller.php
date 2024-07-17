@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\isAdmin;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -18,8 +19,6 @@ class CategoryCotroller extends Controller
 
     public function index(Request $request)
     {
-
-
         if ($request->ajax()) {
         $data = Category::query()->latest()->with('user');
          return DataTables::Of($data)->addIndexColumn()

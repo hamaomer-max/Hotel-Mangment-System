@@ -18,6 +18,12 @@ class Table extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function reservations(){
+        return $this->hasMany(Ressrevation::class , 'user_id');
+    }
+
+    
+
     public function getCratedAtReadableAttribute(){
         return $this->created_at?->diffForHumans();
     }

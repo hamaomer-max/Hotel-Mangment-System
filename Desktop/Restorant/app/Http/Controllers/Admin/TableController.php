@@ -10,13 +10,24 @@ use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
+
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Table::query()->latest()->with('user');
-            return DataTables::of($data)->addIndexColumn()
-                ->make(true);
-        }
+        $data = Table::query()->latest()->with('user');
+        return DataTables::of($data)
+        ->filter(function ($query) use ($request) {
+        if ($request->has('search') && $request->search['value'] != '') {
+        $query->whereHas('reservations', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->search['value'] . '%')
+              ->orWhere('phone_number', 'like', '%' . $request->search['value'] . '%');
+        });
+    }
+})    
+        ->addIndexColumn()
+            ->make(true);
+    }
 
         return view('layouts.admin.tables.index');
     }

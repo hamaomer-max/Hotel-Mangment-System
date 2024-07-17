@@ -69,7 +69,45 @@ class User extends Authenticatable
         return $this->hasMany(Table::class , 'user_id');
     }
 
+    public function reservations(){
+        return $this->hasMany(Ressrevation::class , 'user_id');
+    }
+
+    public function invoices(){
+        return $this->hasMany(Invoice::class , 'user_id');
+    }
+
+    public function invoice_food(){
+        return $this->hasMany(InvoiceFood::class , 'user_id');
+    }
+    
+
     public function getCratedAtReadableAttribute(){
         return $this->created_at?->diffForHumans();
+    }
+
+    public function getRoleReadableAttribute(){
+        if ($this->role == 1) {
+            return 'admin';
+        } elseif ($this->role == 2) {
+            return 'server';
+        } else {
+            return 'chef';
+        }
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == 1;
+    }
+
+    public function isServer()
+    {
+        return $this->role == 2;
+    }
+
+    public function isChef()
+    {
+        return $this->role == 3;
     }
 }

@@ -20,6 +20,10 @@ class SubCategory extends Model
         return $this->belongsTo(User::class , 'user_id');
     }
 
+    public function foods(){
+        return $this->hasMany(Food::class,'sub_category_id');
+    }
+
     protected $appends  = ['full_path_image', 'crated_at_readable'];
 
     public function getCratedAtReadableAttribute(){
@@ -27,6 +31,6 @@ class SubCategory extends Model
     }
 
     public function getFullPathImageAttribute(){
-        return env('APP_URL').'categoris-image/'. $this->image;
+        return env('APP_URL').'../categoris-image/'. $this->image;
     }
 }
